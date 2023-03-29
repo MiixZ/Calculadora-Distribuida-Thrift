@@ -12,7 +12,6 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
-
 class CalculadoraHandler:
     def __init__(self):
         self.log = {}
@@ -20,22 +19,34 @@ class CalculadoraHandler:
     def ping(self):
         print("me han hecho ping()")
 
-    def suma(self, n1, n2):
-        print("sumando " + str(n1) + " con " + str(n2))
-        return n1 + n2
+    def suma(self, numeros):
+        print("Sumando los valores introducidos: \n")
+        for x in numeros:
+            print(str(x) + " ")
 
-    def resta(self, n1, n2):
-        print("restando " + str(n1) + " con " + str(n2))
-        return n1 - n2
+        return sum(numeros)
 
-    def multiplicacion(self, n1, n2):
-        print("multiplicando " + str(n1) + " con " + str(n2))
-        return n1 * n2
+    def resta(self, numeros):
+        print("Restando los valores introducidos: \n")
+        for x in numeros:
+            print(str(x) + " ")
 
-    def division(self, n1, n2):
-        print("dividiendo " + str(n1) + " con " + str(n2))
-        return n1 / n2
+        print("\n")
+        return numeros[0] - sum(numeros[1:])
 
+    def multiplicacion(self, numeros):
+        print("Multiplicando los valores introducidos: \n")
+        resultado = 1
+        for x in numeros:
+            print(str(x) + " ")
+            resultado *= x
+
+        print("\n")
+        return resultado
+
+    def division(self, cociente, divisor):
+        print("dividiendo " + str(cociente) + " con " + str(divisor))
+        return cociente / divisor
 
 if __name__ == "__main__":
     handler = CalculadoraHandler()
