@@ -36,7 +36,7 @@ def pide_cociente():
     elif opcion_cociente == 3:
         valores_cociente = input('Introduzca los valores que desee multiplicar separados por un espacio: \n')
         numeros_cociente = [float(x) for x in valores_cociente.split()]
-        cociente = client.resta(numeros_cociente)
+        cociente = client.multiplicacion(numeros_cociente)
     else:
         cociente = input('Introduzca el valor del cociente: \n')
         cociente = float(cociente)
@@ -69,6 +69,25 @@ def pide_divisor():
 
     return divisor
 
+def pedir_vector_1():
+    vector1 = input('Introduzca los valores del primer vector: ')
+    primer_vector = [float(x) for x in vector1.split()]
+    return primer_vector
+
+def pedir_vector_2():
+    vector1 = input('Introduzca los valores del segundo vector: ')
+    segundo_vector = [float(x) for x in vector1.split()]
+    return segundo_vector
+
+def imprimir_resultado_vectores(resultado):
+    if resultado == "ERROR":
+        print("Ha ocurrido un error inesperado, inténtalo de nuevo.\n")
+        exit(-1)
+
+    print('Resultado: \n')
+    for valores in resultado:
+        print(valores)
+
 def advertencia_vectores():
     print('Tenga en cuenta que si los vectores tienen diferentes tamaño, se mantendrá el que menor tamaño tenga.\n')
 
@@ -82,6 +101,7 @@ while haciendo_operaciones:
     print('6) Restar vectores.\n')
     print('7) Multiplicar vectores.\n')
     print('8) Dividir vectores.\n')
+    print('Cualquier otro número) Abandonar programa.\n')
     opcion = input()
     opcion = int(opcion)
 
@@ -111,27 +131,34 @@ while haciendo_operaciones:
 
     elif opcion == 5:
         advertencia_vectores()
-        vector1 = input('Introduzca los valores del primer vector: ')
-        primer_vector = [float(x) for x in vector1.split()]
-        vector2 = input('\nIntroduzca los valores del segundo vector: ')
-        segundo_vector = [float(x) for x in vector1.split()]
+        primer_vector = pedir_vector_1()
+        segundo_vector = pedir_vector_2()
         resultado = client.sumavectores(primer_vector, segundo_vector)
+        imprimir_resultado_vectores(resultado)
 
     elif opcion == 6:
         advertencia_vectores()
-        vector1 = input('Introduzca los valores del primer vector: ')
-        primer_vector = [float(x) for x in vector1.split()]
-        vector2 = input('\nIntroduzca los valores del segundo vector: ')
-        segundo_vector = [float(x) for x in vector1.split()]
-        resultado = client.sumavectores(primer_vector, segundo_vector)
+        primer_vector = pedir_vector_1()
+        segundo_vector = pedir_vector_2()
+        resultado = client.restarvectores(primer_vector, segundo_vector)
+        imprimir_resultado_vectores(resultado)
 
-        print('Resultado: \n')
-        for valores in resultado:
-            print(valores)
+    elif opcion == 7:
+        advertencia_vectores()
+        primer_vector = pedir_vector_1()
+        segundo_vector = pedir_vector_2()
+        resultado = client.multiplicarvectores(primer_vector, segundo_vector)
+        imprimir_resultado_vectores(resultado)
+
+    elif opcion == 8:
+        advertencia_vectores()
+        primer_vector = pedir_vector_1()
+        segundo_vector = pedir_vector_2()
+        resultado = client.dividirvectores(primer_vector, segundo_vector)
+        imprimir_resultado_vectores(resultado)
 
     else:
-        resultado = 'Nada que operar.'
-        transport.close()
+        print('Nada que operar. Cerrando programa.')
+        haciendo_operaciones = False
 
-print('Resultado: ' + str(resultado) + '\n')
 transport.close()

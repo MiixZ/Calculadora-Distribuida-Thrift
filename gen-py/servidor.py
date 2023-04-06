@@ -13,6 +13,19 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG)
 
+def iniciarServicio(operacion, vector1, vector2):
+    transport = TSocket.TSocket("localhost", 9094)
+    transport = TTransport.TBufferedTransport(transport)
+    protocol = TBinaryProtocol.TBinaryProtocol(transport)
+
+    client = Calculadora2.Client(protocol)
+    transport.open()
+
+    resultado = client.operacionvectores(operacion, vector1, vector2)
+    transport.close()
+
+    return resultado
+
 class CalculadoraHandler:
     def __init__(self):
         self.log = {}
@@ -50,16 +63,26 @@ class CalculadoraHandler:
         return cociente / divisor
 
     def sumavectores(self, vector1, vector2):
-        print('Enviando vectores al servidor auxiliar...\n')
-        transport = TSocket.TSocket("localhost", 9094)
-        transport = TTransport.TBufferedTransport(transport)
-        protocol = TBinaryProtocol.TBinaryProtocol(transport)
+        print('OPERACIÓN COMPLEJA: Enviando vectores para sumar al servidor auxiliar...\n')
+        resultado = iniciarServicio(1, vector1, vector2)
+        print('El servidor auxiliar ha calculado con éxito los valores...\n')
+        return resultado
 
-        client = Calculadora2.Client(protocol)
-        transport.open()
+    def restarvectores(self, vector1, vector2):
+        print('OPERACIÓN COMPLEJA: Enviando vectores para restar al servidor auxiliar...\n')
+        resultado = iniciarServicio(2, vector1, vector2)
+        print('El servidor auxiliar ha calculado con éxito los valores...\n')
+        return resultado
 
-        resultado = client.operacionvectores(1, vector1, vector2)
-        transport.close()
+    def multiplicarvectores(self, vector1, vector2):
+        print('OPERACIÓN COMPLEJA: Enviando vectores para multiplicar al servidor auxiliar...\n')
+        resultado = iniciarServicio(3, vector1, vector2)
+        print('El servidor auxiliar ha calculado con éxito los valores...\n')
+        return resultado
+
+    def dividirvectores(self, vector1, vector2):
+        print('OPERACIÓN COMPLEJA: Enviando vectores para multiplicar al servidor auxiliar...\n')
+        resultado = iniciarServicio(4, vector1, vector2)
         print('El servidor auxiliar ha calculado con éxito los valores...\n')
         return resultado
 

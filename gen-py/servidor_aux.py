@@ -25,6 +25,20 @@ class CalculadoraHandler:
             print('Sumando vectores...\n')
             for i in range(min(len(vector1), len(vector2))):
                 resultado.append(vector1[i] + vector2[i])
+        elif op == 2:
+            print('Restando vectores...\n')
+            for i in range(min(len(vector1), len(vector2))):
+                resultado.append(vector1[i] - vector2[i])
+        elif op == 3:
+            print('Multiplicando vectores...\n')
+            for i in range(min(len(vector1), len(vector2))):
+                resultado.append(vector1[i] * vector2[i])
+        elif op == 4:
+            print('Dividiendo vectores...\n')
+            for i in range(min(len(vector1), len(vector2))):
+                resultado.append(vector1[i] / vector2[i])
+        else:
+            resultado = "ERROR"
 
         return resultado
 
