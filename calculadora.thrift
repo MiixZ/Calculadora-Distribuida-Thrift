@@ -5,5 +5,9 @@ service Calculadora {
    double suma(1: valores val),
    double resta(1: valores val),
    double multiplicacion(1: valores val),
-   double division(1: double cociente, 2: double divisor);
+   double division(1: double cociente, 2: double divisor),
+   valores sumavectores(1: valores vector1, 2: valores vector2),
+   valores restarvectores(1: valores vector1, 2: valores vector2),
+   valores multiplicarvectores(1: valores vector1, 2: valores vector2),
+   valores dividirvectores(1: valores vector1, 2: valores vector2);
 }

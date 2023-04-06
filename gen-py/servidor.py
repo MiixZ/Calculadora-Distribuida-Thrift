@@ -2,6 +2,7 @@ import glob
 import sys
 
 from calculadora import Calculadora
+from calculadora2 import Calculadora2
 
 from thrift.transport import TSocket
 from thrift.transport import TTransport
@@ -48,6 +49,20 @@ class CalculadoraHandler:
         print("dividiendo " + str(cociente) + " con " + str(divisor))
         return cociente / divisor
 
+    def sumavectores(self, vector1, vector2):
+        print('Enviando vectores al servidor auxiliar...\n')
+        transport = TSocket.TSocket("localhost", 9094)
+        transport = TTransport.TBufferedTransport(transport)
+        protocol = TBinaryProtocol.TBinaryProtocol(transport)
+
+        client = Calculadora2.Client(protocol)
+        transport.open()
+
+        resultado = client.operacionvectores(1, vector1, vector2)
+        transport.close()
+        print('El servidor auxiliar ha calculado con éxito los valores...\n')
+        return resultado
+
 if __name__ == "__main__":
     handler = CalculadoraHandler()
     processor = Calculadora.Processor(handler)
@@ -57,6 +72,6 @@ if __name__ == "__main__":
 
     server = TServer.TSimpleServer(processor, transport, tfactory, pfactory)
 
-    print("iniciando servidor...")
+    print("Iniciando servidor...")
     server.serve()
     print("fin")

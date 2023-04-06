@@ -55,6 +55,42 @@ class Iface(object):
         """
         pass
 
+    def sumavectores(self, vector1, vector2):
+        """
+        Parameters:
+         - vector1
+         - vector2
+
+        """
+        pass
+
+    def restarvectores(self, vector1, vector2):
+        """
+        Parameters:
+         - vector1
+         - vector2
+
+        """
+        pass
+
+    def multiplicarvectores(self, vector1, vector2):
+        """
+        Parameters:
+         - vector1
+         - vector2
+
+        """
+        pass
+
+    def dividirvectores(self, vector1, vector2):
+        """
+        Parameters:
+         - vector1
+         - vector2
+
+        """
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -217,6 +253,142 @@ class Client(Iface):
             return result.success
         raise TApplicationException(TApplicationException.MISSING_RESULT, "division failed: unknown result")
 
+    def sumavectores(self, vector1, vector2):
+        """
+        Parameters:
+         - vector1
+         - vector2
+
+        """
+        self.send_sumavectores(vector1, vector2)
+        return self.recv_sumavectores()
+
+    def send_sumavectores(self, vector1, vector2):
+        self._oprot.writeMessageBegin('sumavectores', TMessageType.CALL, self._seqid)
+        args = sumavectores_args()
+        args.vector1 = vector1
+        args.vector2 = vector2
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_sumavectores(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = sumavectores_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "sumavectores failed: unknown result")
+
+    def restarvectores(self, vector1, vector2):
+        """
+        Parameters:
+         - vector1
+         - vector2
+
+        """
+        self.send_restarvectores(vector1, vector2)
+        return self.recv_restarvectores()
+
+    def send_restarvectores(self, vector1, vector2):
+        self._oprot.writeMessageBegin('restarvectores', TMessageType.CALL, self._seqid)
+        args = restarvectores_args()
+        args.vector1 = vector1
+        args.vector2 = vector2
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_restarvectores(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = restarvectores_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "restarvectores failed: unknown result")
+
+    def multiplicarvectores(self, vector1, vector2):
+        """
+        Parameters:
+         - vector1
+         - vector2
+
+        """
+        self.send_multiplicarvectores(vector1, vector2)
+        return self.recv_multiplicarvectores()
+
+    def send_multiplicarvectores(self, vector1, vector2):
+        self._oprot.writeMessageBegin('multiplicarvectores', TMessageType.CALL, self._seqid)
+        args = multiplicarvectores_args()
+        args.vector1 = vector1
+        args.vector2 = vector2
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_multiplicarvectores(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = multiplicarvectores_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "multiplicarvectores failed: unknown result")
+
+    def dividirvectores(self, vector1, vector2):
+        """
+        Parameters:
+         - vector1
+         - vector2
+
+        """
+        self.send_dividirvectores(vector1, vector2)
+        return self.recv_dividirvectores()
+
+    def send_dividirvectores(self, vector1, vector2):
+        self._oprot.writeMessageBegin('dividirvectores', TMessageType.CALL, self._seqid)
+        args = dividirvectores_args()
+        args.vector1 = vector1
+        args.vector2 = vector2
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_dividirvectores(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = dividirvectores_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "dividirvectores failed: unknown result")
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
@@ -227,6 +399,10 @@ class Processor(Iface, TProcessor):
         self._processMap["resta"] = Processor.process_resta
         self._processMap["multiplicacion"] = Processor.process_multiplicacion
         self._processMap["division"] = Processor.process_division
+        self._processMap["sumavectores"] = Processor.process_sumavectores
+        self._processMap["restarvectores"] = Processor.process_restarvectores
+        self._processMap["multiplicarvectores"] = Processor.process_multiplicarvectores
+        self._processMap["dividirvectores"] = Processor.process_dividirvectores
         self._on_message_begin = None
 
     def on_message_begin(self, func):
@@ -360,6 +536,98 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("division", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_sumavectores(self, seqid, iprot, oprot):
+        args = sumavectores_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = sumavectores_result()
+        try:
+            result.success = self._handler.sumavectores(args.vector1, args.vector2)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("sumavectores", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_restarvectores(self, seqid, iprot, oprot):
+        args = restarvectores_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = restarvectores_result()
+        try:
+            result.success = self._handler.restarvectores(args.vector1, args.vector2)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("restarvectores", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_multiplicarvectores(self, seqid, iprot, oprot):
+        args = multiplicarvectores_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = multiplicarvectores_result()
+        try:
+            result.success = self._handler.multiplicarvectores(args.vector1, args.vector2)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("multiplicarvectores", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_dividirvectores(self, seqid, iprot, oprot):
+        args = dividirvectores_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = dividirvectores_result()
+        try:
+            result.success = self._handler.dividirvectores(args.vector1, args.vector2)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("dividirvectores", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -978,6 +1246,642 @@ class division_result(object):
 all_structs.append(division_result)
 division_result.thrift_spec = (
     (0, TType.DOUBLE, 'success', None, None, ),  # 0
+)
+
+
+class sumavectores_args(object):
+    """
+    Attributes:
+     - vector1
+     - vector2
+
+    """
+
+
+    def __init__(self, vector1=None, vector2=None,):
+        self.vector1 = vector1
+        self.vector2 = vector2
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.vector1 = []
+                    (_etype24, _size21) = iprot.readListBegin()
+                    for _i25 in range(_size21):
+                        _elem26 = iprot.readDouble()
+                        self.vector1.append(_elem26)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.LIST:
+                    self.vector2 = []
+                    (_etype30, _size27) = iprot.readListBegin()
+                    for _i31 in range(_size27):
+                        _elem32 = iprot.readDouble()
+                        self.vector2.append(_elem32)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('sumavectores_args')
+        if self.vector1 is not None:
+            oprot.writeFieldBegin('vector1', TType.LIST, 1)
+            oprot.writeListBegin(TType.DOUBLE, len(self.vector1))
+            for iter33 in self.vector1:
+                oprot.writeDouble(iter33)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.vector2 is not None:
+            oprot.writeFieldBegin('vector2', TType.LIST, 2)
+            oprot.writeListBegin(TType.DOUBLE, len(self.vector2))
+            for iter34 in self.vector2:
+                oprot.writeDouble(iter34)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(sumavectores_args)
+sumavectores_args.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'vector1', (TType.DOUBLE, None, False), None, ),  # 1
+    (2, TType.LIST, 'vector2', (TType.DOUBLE, None, False), None, ),  # 2
+)
+
+
+class sumavectores_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.LIST:
+                    self.success = []
+                    (_etype38, _size35) = iprot.readListBegin()
+                    for _i39 in range(_size35):
+                        _elem40 = iprot.readDouble()
+                        self.success.append(_elem40)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('sumavectores_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.LIST, 0)
+            oprot.writeListBegin(TType.DOUBLE, len(self.success))
+            for iter41 in self.success:
+                oprot.writeDouble(iter41)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(sumavectores_result)
+sumavectores_result.thrift_spec = (
+    (0, TType.LIST, 'success', (TType.DOUBLE, None, False), None, ),  # 0
+)
+
+
+class restarvectores_args(object):
+    """
+    Attributes:
+     - vector1
+     - vector2
+
+    """
+
+
+    def __init__(self, vector1=None, vector2=None,):
+        self.vector1 = vector1
+        self.vector2 = vector2
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.vector1 = []
+                    (_etype45, _size42) = iprot.readListBegin()
+                    for _i46 in range(_size42):
+                        _elem47 = iprot.readDouble()
+                        self.vector1.append(_elem47)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.LIST:
+                    self.vector2 = []
+                    (_etype51, _size48) = iprot.readListBegin()
+                    for _i52 in range(_size48):
+                        _elem53 = iprot.readDouble()
+                        self.vector2.append(_elem53)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('restarvectores_args')
+        if self.vector1 is not None:
+            oprot.writeFieldBegin('vector1', TType.LIST, 1)
+            oprot.writeListBegin(TType.DOUBLE, len(self.vector1))
+            for iter54 in self.vector1:
+                oprot.writeDouble(iter54)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.vector2 is not None:
+            oprot.writeFieldBegin('vector2', TType.LIST, 2)
+            oprot.writeListBegin(TType.DOUBLE, len(self.vector2))
+            for iter55 in self.vector2:
+                oprot.writeDouble(iter55)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(restarvectores_args)
+restarvectores_args.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'vector1', (TType.DOUBLE, None, False), None, ),  # 1
+    (2, TType.LIST, 'vector2', (TType.DOUBLE, None, False), None, ),  # 2
+)
+
+
+class restarvectores_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.LIST:
+                    self.success = []
+                    (_etype59, _size56) = iprot.readListBegin()
+                    for _i60 in range(_size56):
+                        _elem61 = iprot.readDouble()
+                        self.success.append(_elem61)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('restarvectores_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.LIST, 0)
+            oprot.writeListBegin(TType.DOUBLE, len(self.success))
+            for iter62 in self.success:
+                oprot.writeDouble(iter62)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(restarvectores_result)
+restarvectores_result.thrift_spec = (
+    (0, TType.LIST, 'success', (TType.DOUBLE, None, False), None, ),  # 0
+)
+
+
+class multiplicarvectores_args(object):
+    """
+    Attributes:
+     - vector1
+     - vector2
+
+    """
+
+
+    def __init__(self, vector1=None, vector2=None,):
+        self.vector1 = vector1
+        self.vector2 = vector2
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.vector1 = []
+                    (_etype66, _size63) = iprot.readListBegin()
+                    for _i67 in range(_size63):
+                        _elem68 = iprot.readDouble()
+                        self.vector1.append(_elem68)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.LIST:
+                    self.vector2 = []
+                    (_etype72, _size69) = iprot.readListBegin()
+                    for _i73 in range(_size69):
+                        _elem74 = iprot.readDouble()
+                        self.vector2.append(_elem74)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('multiplicarvectores_args')
+        if self.vector1 is not None:
+            oprot.writeFieldBegin('vector1', TType.LIST, 1)
+            oprot.writeListBegin(TType.DOUBLE, len(self.vector1))
+            for iter75 in self.vector1:
+                oprot.writeDouble(iter75)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.vector2 is not None:
+            oprot.writeFieldBegin('vector2', TType.LIST, 2)
+            oprot.writeListBegin(TType.DOUBLE, len(self.vector2))
+            for iter76 in self.vector2:
+                oprot.writeDouble(iter76)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(multiplicarvectores_args)
+multiplicarvectores_args.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'vector1', (TType.DOUBLE, None, False), None, ),  # 1
+    (2, TType.LIST, 'vector2', (TType.DOUBLE, None, False), None, ),  # 2
+)
+
+
+class multiplicarvectores_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.LIST:
+                    self.success = []
+                    (_etype80, _size77) = iprot.readListBegin()
+                    for _i81 in range(_size77):
+                        _elem82 = iprot.readDouble()
+                        self.success.append(_elem82)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('multiplicarvectores_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.LIST, 0)
+            oprot.writeListBegin(TType.DOUBLE, len(self.success))
+            for iter83 in self.success:
+                oprot.writeDouble(iter83)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(multiplicarvectores_result)
+multiplicarvectores_result.thrift_spec = (
+    (0, TType.LIST, 'success', (TType.DOUBLE, None, False), None, ),  # 0
+)
+
+
+class dividirvectores_args(object):
+    """
+    Attributes:
+     - vector1
+     - vector2
+
+    """
+
+
+    def __init__(self, vector1=None, vector2=None,):
+        self.vector1 = vector1
+        self.vector2 = vector2
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.LIST:
+                    self.vector1 = []
+                    (_etype87, _size84) = iprot.readListBegin()
+                    for _i88 in range(_size84):
+                        _elem89 = iprot.readDouble()
+                        self.vector1.append(_elem89)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.LIST:
+                    self.vector2 = []
+                    (_etype93, _size90) = iprot.readListBegin()
+                    for _i94 in range(_size90):
+                        _elem95 = iprot.readDouble()
+                        self.vector2.append(_elem95)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('dividirvectores_args')
+        if self.vector1 is not None:
+            oprot.writeFieldBegin('vector1', TType.LIST, 1)
+            oprot.writeListBegin(TType.DOUBLE, len(self.vector1))
+            for iter96 in self.vector1:
+                oprot.writeDouble(iter96)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.vector2 is not None:
+            oprot.writeFieldBegin('vector2', TType.LIST, 2)
+            oprot.writeListBegin(TType.DOUBLE, len(self.vector2))
+            for iter97 in self.vector2:
+                oprot.writeDouble(iter97)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(dividirvectores_args)
+dividirvectores_args.thrift_spec = (
+    None,  # 0
+    (1, TType.LIST, 'vector1', (TType.DOUBLE, None, False), None, ),  # 1
+    (2, TType.LIST, 'vector2', (TType.DOUBLE, None, False), None, ),  # 2
+)
+
+
+class dividirvectores_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.LIST:
+                    self.success = []
+                    (_etype101, _size98) = iprot.readListBegin()
+                    for _i102 in range(_size98):
+                        _elem103 = iprot.readDouble()
+                        self.success.append(_elem103)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('dividirvectores_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.LIST, 0)
+            oprot.writeListBegin(TType.DOUBLE, len(self.success))
+            for iter104 in self.success:
+                oprot.writeDouble(iter104)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(dividirvectores_result)
+dividirvectores_result.thrift_spec = (
+    (0, TType.LIST, 'success', (TType.DOUBLE, None, False), None, ),  # 0
 )
 fix_spec(all_structs)
 del all_structs

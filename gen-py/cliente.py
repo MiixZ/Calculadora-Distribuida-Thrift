@@ -10,6 +10,13 @@ protocol = TBinaryProtocol.TBinaryProtocol(transport)
 
 client = Calculadora.Client(protocol)
 
+transport.open()
+
+print("Haciendo ping al server.")
+client.ping()
+
+haciendo_operaciones = True
+
 def pide_cociente():
     opcion_cociente = input('Elija qué operación desea hacer con los valores que introduzca en el cociente: \n'
           '1) Sumar. \n'
@@ -62,20 +69,19 @@ def pide_divisor():
 
     return divisor
 
-transport.open()
+def advertencia_vectores():
+    print('Tenga en cuenta que si los vectores tienen diferentes tamaño, se mantendrá el que menor tamaño tenga.\n')
 
-print("Haciendo ping al server.")
-client.ping()
-
-haciendo_operaciones = True
-
-while(haciendo_operaciones):
+while haciendo_operaciones:
     print('Elige la operación que quieres realizar: \n')
     print('1) Sumar valores\n')
     print('2) Restar valores\n')
     print('3) Multiplicar valores\n')
     print('4) Dividir valores\n')
-    print('5) Abandonar programa.\n')
+    print('5) Sumar vectores.\n')
+    print('6) Restar vectores.\n')
+    print('7) Multiplicar vectores.\n')
+    print('8) Dividir vectores.\n')
     opcion = input()
     opcion = int(opcion)
 
@@ -104,13 +110,28 @@ while(haciendo_operaciones):
         print('Resultado: ' + str(resultado) + '\n')
 
     elif opcion == 5:
-        resultado = 'Se acabaron las operaciones, finalizando programa...\n'
-        haciendo_operaciones = False
+        advertencia_vectores()
+        vector1 = input('Introduzca los valores del primer vector: ')
+        primer_vector = [float(x) for x in vector1.split()]
+        vector2 = input('\nIntroduzca los valores del segundo vector: ')
+        segundo_vector = [float(x) for x in vector1.split()]
+        resultado = client.sumavectores(primer_vector, segundo_vector)
+
+    elif opcion == 6:
+        advertencia_vectores()
+        vector1 = input('Introduzca los valores del primer vector: ')
+        primer_vector = [float(x) for x in vector1.split()]
+        vector2 = input('\nIntroduzca los valores del segundo vector: ')
+        segundo_vector = [float(x) for x in vector1.split()]
+        resultado = client.sumavectores(primer_vector, segundo_vector)
+
+        print('Resultado: \n')
+        for valores in resultado:
+            print(valores)
 
     else:
-        resultado = 'Nada que operar, operación fallida.'
-        print('Resultado: ' + str(resultado) + '\n')
+        resultado = 'Nada que operar.'
+        transport.close()
 
 print('Resultado: ' + str(resultado) + '\n')
-
 transport.close()
