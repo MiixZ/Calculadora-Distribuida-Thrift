@@ -44,28 +44,34 @@ def pide_cociente():
     return cociente
 
 def pide_divisor():
-    opcion_divisor = input('Elija qué operación desea hacer con los valores que introduzca en el divisor: \n'
-                            '1) Sumar. \n'
-                            '2) Restar. \n'
-                            '3) Multiplicar. \n'
-                            '4) Introducir valor directamente. \n')
-    opcion_divisor = int(opcion_divisor)
+    divisor = 0
 
-    if opcion_divisor == 1:
-        valores_divisor = input('Introduzca los valores que desee sumar separados por un espacio: \n')
-        numeros_divisor = [float(x) for x in valores_divisor.split()]
-        divisor = client.suma(numeros_divisor)
-    elif opcion_divisor == 2:
-        valores_divisor = input('Introduzca los valores que desee restar separados por un espacio: \n')
-        numeros_divisor = [float(x) for x in valores_divisor.split()]
-        divisor = client.resta(numeros_divisor)
-    elif opcion_divisor == 3:
-        valores_divisor = input('Introduzca los valores que desee multiplicar separados por un espacio: \n')
-        numeros_divisor = [float(x) for x in valores_divisor.split()]
-        divisor = client.resta(numeros_divisor)
-    else:
-        divisor = input('Introduzca el valor del divisor: \n')
-        divisor = float(divisor)
+    while divisor == 0:
+        opcion_divisor = input('Elija qué operación desea hacer con los valores que introduzca en el divisor: \n'
+                                '1) Sumar. \n'
+                                '2) Restar. \n'
+                                '3) Multiplicar. \n'
+                                'Cualquier otro número) Introducir valor directamente. \n')
+        opcion_divisor = int(opcion_divisor)
+
+        if opcion_divisor == 1:
+            valores_divisor = input('Introduzca los valores que desee sumar separados por un espacio: \n')
+            numeros_divisor = [float(x) for x in valores_divisor.split()]
+            divisor = client.suma(numeros_divisor)
+        elif opcion_divisor == 2:
+            valores_divisor = input('Introduzca los valores que desee restar separados por un espacio: \n')
+            numeros_divisor = [float(x) for x in valores_divisor.split()]
+            divisor = client.resta(numeros_divisor)
+        elif opcion_divisor == 3:
+            valores_divisor = input('Introduzca los valores que desee multiplicar separados por un espacio: \n')
+            numeros_divisor = [float(x) for x in valores_divisor.split()]
+            divisor = client.multiplicacion(numeros_divisor)
+        else:
+            divisor = input('Introduzca el valor del divisor: \n')
+            divisor = float(divisor)
+
+        if divisor == 0:
+            print('El divisor no puede ser 0.\n')
 
     return divisor
 
@@ -74,9 +80,21 @@ def pedir_vector_1():
     primer_vector = [float(x) for x in vector1.split()]
     return primer_vector
 
-def pedir_vector_2():
-    vector1 = input('Introduzca los valores del segundo vector: ')
-    segundo_vector = [float(x) for x in vector1.split()]
+def pedir_vector_2(op):
+    not_in = True
+    segundo_vector = []
+    if op == 0:
+        while not_in:
+            vector2 = input('Introduzca los valores del segundo vector: ')
+            segundo_vector = [float(x) for x in vector2.split()]
+            not_in = False
+            if 0 in segundo_vector:
+                not_in = True
+                print('¡No puedes introducir un 0!\n')
+    else:
+        vector2 = input('Introduzca los valores del segundo vector: ')
+        segundo_vector = [float(x) for x in vector2.split()]
+
     return segundo_vector
 
 def imprimir_resultado_vectores(resultado):
@@ -105,7 +123,11 @@ while haciendo_operaciones:
     print('10) Dividir vectores.\n')
     print('Cualquier otro número) Abandonar programa.\n')
     opcion = input()
-    opcion = int(opcion)
+    try:
+        opcion = int(opcion)
+    except ValueError:
+        print('No se ha podido leer el valor correctamente, por favor inténtelo de nuevo.\n')
+
     primer_vector = []
     segundo_vector = []
 
@@ -140,41 +162,49 @@ while haciendo_operaciones:
         print('Resultado: ' + str(resultado) + '\n')
 
     elif opcion == 6:
-        dentro = float(input('Introduzca el radicando: \n'))
-        potencia = float(input('Introduzca el índice de la raíz: \n'))
+        dentro = -1
+        potencia = -1
+        while dentro < 0 or potencia <= 0:
+            print('El radicando y el índice deben ser positivos.\n')
+            dentro = float(input('Introduzca el radicando: \n'))
+            potencia = float(input('Introduzca el índice de la raíz: \n'))
+
         resultado = client.raiz(dentro, potencia)
         print('Resultado: ' + str(resultado) + '\n')
 
     elif opcion == 7:
         advertencia_vectores()
         primer_vector = pedir_vector_1()
-        segundo_vector = pedir_vector_2()
+        segundo_vector = pedir_vector_2(1)
         resultado = client.sumavectores(primer_vector, segundo_vector)
         imprimir_resultado_vectores(resultado)
 
     elif opcion == 8:
         advertencia_vectores()
         primer_vector = pedir_vector_1()
-        segundo_vector = pedir_vector_2()
+        segundo_vector = pedir_vector_2(1)
         resultado = client.restarvectores(primer_vector, segundo_vector)
         imprimir_resultado_vectores(resultado)
 
     elif opcion == 9:
         advertencia_vectores()
         primer_vector = pedir_vector_1()
-        segundo_vector = pedir_vector_2()
+        segundo_vector = pedir_vector_2(1)
         resultado = client.multiplicarvectores(primer_vector, segundo_vector)
         imprimir_resultado_vectores(resultado)
 
     elif opcion == 10:
         advertencia_vectores()
         primer_vector = pedir_vector_1()
-        segundo_vector = pedir_vector_2()
+        segundo_vector = pedir_vector_2(0)
         resultado = client.dividirvectores(primer_vector, segundo_vector)
         imprimir_resultado_vectores(resultado)
 
-    else:
+    elif isinstance(opcion, int):
         print('Nada que operar. Cerrando programa.')
         haciendo_operaciones = False
+
+    else:
+        haciendo_operaciones = True
 
 transport.close()
