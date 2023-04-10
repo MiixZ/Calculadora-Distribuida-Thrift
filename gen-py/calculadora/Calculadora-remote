@@ -29,6 +29,8 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  double resta(valores val)')
     print('  double multiplicacion(valores val)')
     print('  double division(double cociente, double divisor)')
+    print('  double potencia(double base, double potencia)')
+    print('  double raiz(double dentro, double potencia)')
     print('  valores sumavectores(valores vector1, valores vector2)')
     print('  valores restarvectores(valores vector1, valores vector2)')
     print('  valores multiplicarvectores(valores vector1, valores vector2)')
@@ -141,6 +143,18 @@ elif cmd == 'division':
         print('division requires 2 args')
         sys.exit(1)
     pp.pprint(client.division(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'potencia':
+    if len(args) != 2:
+        print('potencia requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.potencia(eval(args[0]), eval(args[1]),))
+
+elif cmd == 'raiz':
+    if len(args) != 2:
+        print('raiz requires 2 args')
+        sys.exit(1)
+    pp.pprint(client.raiz(eval(args[0]), eval(args[1]),))
 
 elif cmd == 'sumavectores':
     if len(args) != 2:

@@ -55,6 +55,24 @@ class Iface(object):
         """
         pass
 
+    def potencia(self, base, potencia):
+        """
+        Parameters:
+         - base
+         - potencia
+
+        """
+        pass
+
+    def raiz(self, dentro, potencia):
+        """
+        Parameters:
+         - dentro
+         - potencia
+
+        """
+        pass
+
     def sumavectores(self, vector1, vector2):
         """
         Parameters:
@@ -253,6 +271,74 @@ class Client(Iface):
             return result.success
         raise TApplicationException(TApplicationException.MISSING_RESULT, "division failed: unknown result")
 
+    def potencia(self, base, potencia):
+        """
+        Parameters:
+         - base
+         - potencia
+
+        """
+        self.send_potencia(base, potencia)
+        return self.recv_potencia()
+
+    def send_potencia(self, base, potencia):
+        self._oprot.writeMessageBegin('potencia', TMessageType.CALL, self._seqid)
+        args = potencia_args()
+        args.base = base
+        args.potencia = potencia
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_potencia(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = potencia_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "potencia failed: unknown result")
+
+    def raiz(self, dentro, potencia):
+        """
+        Parameters:
+         - dentro
+         - potencia
+
+        """
+        self.send_raiz(dentro, potencia)
+        return self.recv_raiz()
+
+    def send_raiz(self, dentro, potencia):
+        self._oprot.writeMessageBegin('raiz', TMessageType.CALL, self._seqid)
+        args = raiz_args()
+        args.dentro = dentro
+        args.potencia = potencia
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_raiz(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = raiz_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "raiz failed: unknown result")
+
     def sumavectores(self, vector1, vector2):
         """
         Parameters:
@@ -399,6 +485,8 @@ class Processor(Iface, TProcessor):
         self._processMap["resta"] = Processor.process_resta
         self._processMap["multiplicacion"] = Processor.process_multiplicacion
         self._processMap["division"] = Processor.process_division
+        self._processMap["potencia"] = Processor.process_potencia
+        self._processMap["raiz"] = Processor.process_raiz
         self._processMap["sumavectores"] = Processor.process_sumavectores
         self._processMap["restarvectores"] = Processor.process_restarvectores
         self._processMap["multiplicarvectores"] = Processor.process_multiplicarvectores
@@ -536,6 +624,52 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("division", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_potencia(self, seqid, iprot, oprot):
+        args = potencia_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = potencia_result()
+        try:
+            result.success = self._handler.potencia(args.base, args.potencia)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("potencia", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_raiz(self, seqid, iprot, oprot):
+        args = raiz_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = raiz_result()
+        try:
+            result.success = self._handler.raiz(args.dentro, args.potencia)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception('TApplication exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception('Unexpected exception in handler')
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("raiz", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1245,6 +1379,276 @@ class division_result(object):
         return not (self == other)
 all_structs.append(division_result)
 division_result.thrift_spec = (
+    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+)
+
+
+class potencia_args(object):
+    """
+    Attributes:
+     - base
+     - potencia
+
+    """
+
+
+    def __init__(self, base=None, potencia=None,):
+        self.base = base
+        self.potencia = potencia
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.DOUBLE:
+                    self.base = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.DOUBLE:
+                    self.potencia = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('potencia_args')
+        if self.base is not None:
+            oprot.writeFieldBegin('base', TType.DOUBLE, 1)
+            oprot.writeDouble(self.base)
+            oprot.writeFieldEnd()
+        if self.potencia is not None:
+            oprot.writeFieldBegin('potencia', TType.DOUBLE, 2)
+            oprot.writeDouble(self.potencia)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(potencia_args)
+potencia_args.thrift_spec = (
+    None,  # 0
+    (1, TType.DOUBLE, 'base', None, None, ),  # 1
+    (2, TType.DOUBLE, 'potencia', None, None, ),  # 2
+)
+
+
+class potencia_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.DOUBLE:
+                    self.success = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('potencia_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
+            oprot.writeDouble(self.success)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(potencia_result)
+potencia_result.thrift_spec = (
+    (0, TType.DOUBLE, 'success', None, None, ),  # 0
+)
+
+
+class raiz_args(object):
+    """
+    Attributes:
+     - dentro
+     - potencia
+
+    """
+
+
+    def __init__(self, dentro=None, potencia=None,):
+        self.dentro = dentro
+        self.potencia = potencia
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.DOUBLE:
+                    self.dentro = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.DOUBLE:
+                    self.potencia = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('raiz_args')
+        if self.dentro is not None:
+            oprot.writeFieldBegin('dentro', TType.DOUBLE, 1)
+            oprot.writeDouble(self.dentro)
+            oprot.writeFieldEnd()
+        if self.potencia is not None:
+            oprot.writeFieldBegin('potencia', TType.DOUBLE, 2)
+            oprot.writeDouble(self.potencia)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(raiz_args)
+raiz_args.thrift_spec = (
+    None,  # 0
+    (1, TType.DOUBLE, 'dentro', None, None, ),  # 1
+    (2, TType.DOUBLE, 'potencia', None, None, ),  # 2
+)
+
+
+class raiz_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+
+    def __init__(self, success=None,):
+        self.success = success
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.DOUBLE:
+                    self.success = iprot.readDouble()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, [self.__class__, self.thrift_spec]))
+            return
+        oprot.writeStructBegin('raiz_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.DOUBLE, 0)
+            oprot.writeDouble(self.success)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+all_structs.append(raiz_result)
+raiz_result.thrift_spec = (
     (0, TType.DOUBLE, 'success', None, None, ),  # 0
 )
 

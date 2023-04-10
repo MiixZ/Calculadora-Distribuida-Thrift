@@ -62,6 +62,14 @@ class CalculadoraHandler:
         print("dividiendo " + str(cociente) + " con " + str(divisor))
         return cociente / divisor
 
+    def potencia(self, base, potencia):
+        print("Calculando la potencia " + str(potencia) + "-ésima de " + str(base))
+        return base ** potencia
+
+    def raiz(self, dentro, potencia):
+        print("Calculando la raíz " + str(potencia) + "-ésima de " + str(dentro))
+        return pow(dentro, 1 / potencia)
+
     def sumavectores(self, vector1, vector2):
         print('OPERACIÓN COMPLEJA: Enviando vectores para sumar al servidor auxiliar...\n')
         resultado = iniciarServicio(1, vector1, vector2)

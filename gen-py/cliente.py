@@ -97,13 +97,17 @@ while haciendo_operaciones:
     print('2) Restar valores\n')
     print('3) Multiplicar valores\n')
     print('4) Dividir valores\n')
-    print('5) Sumar vectores.\n')
-    print('6) Restar vectores.\n')
-    print('7) Multiplicar vectores.\n')
-    print('8) Dividir vectores.\n')
+    print('5) Potencia de un número.\n')
+    print('6) Raíz n-ésima de un número.\n')
+    print('7) Sumar vectores.\n')
+    print('8) Restar vectores.\n')
+    print('9) Multiplicar vectores.\n')
+    print('10) Dividir vectores.\n')
     print('Cualquier otro número) Abandonar programa.\n')
     opcion = input()
     opcion = int(opcion)
+    primer_vector = []
+    segundo_vector = []
 
     if opcion == 1:
         valores = input('Introduzca los valores que desee sumar separados por un espacio: ')
@@ -130,27 +134,39 @@ while haciendo_operaciones:
         print('Resultado: ' + str(resultado) + '\n')
 
     elif opcion == 5:
+        base = float(input('Introduzca la base de la potencia: \n'))
+        potencia = float(input('Introduzca la potencia a la que desea elevar la base: \n'))
+        resultado = client.potencia(base, potencia)
+        print('Resultado: ' + str(resultado) + '\n')
+
+    elif opcion == 6:
+        dentro = float(input('Introduzca el radicando: \n'))
+        potencia = float(input('Introduzca el índice de la raíz: \n'))
+        resultado = client.raiz(dentro, potencia)
+        print('Resultado: ' + str(resultado) + '\n')
+
+    elif opcion == 7:
         advertencia_vectores()
         primer_vector = pedir_vector_1()
         segundo_vector = pedir_vector_2()
         resultado = client.sumavectores(primer_vector, segundo_vector)
         imprimir_resultado_vectores(resultado)
 
-    elif opcion == 6:
+    elif opcion == 8:
         advertencia_vectores()
         primer_vector = pedir_vector_1()
         segundo_vector = pedir_vector_2()
         resultado = client.restarvectores(primer_vector, segundo_vector)
         imprimir_resultado_vectores(resultado)
 
-    elif opcion == 7:
+    elif opcion == 9:
         advertencia_vectores()
         primer_vector = pedir_vector_1()
         segundo_vector = pedir_vector_2()
         resultado = client.multiplicarvectores(primer_vector, segundo_vector)
         imprimir_resultado_vectores(resultado)
 
-    elif opcion == 8:
+    elif opcion == 10:
         advertencia_vectores()
         primer_vector = pedir_vector_1()
         segundo_vector = pedir_vector_2()
